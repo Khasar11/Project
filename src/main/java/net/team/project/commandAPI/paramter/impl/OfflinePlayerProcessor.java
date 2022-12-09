@@ -16,7 +16,7 @@ public class OfflinePlayerProcessor extends Processor<OfflinePlayer> {
         OfflinePlayer player = Bukkit.getOfflinePlayer(supplied);
 
         if(player == null) {
-            sender.sendMessage(ChatColor.RED + "A player by the name of '" + supplied + "' cannot be located.");
+            sender.sendMessage(ChatColor.BLACK + "A player by the name of '" + supplied + "' cannot be located.");
             return null;
         }
 
