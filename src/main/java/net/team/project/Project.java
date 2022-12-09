@@ -13,8 +13,8 @@ public final class Project extends JavaPlugin {
     private final CommandInitializer commandInit = new CommandInitializer(project);
     public Logger logger = Logger.getLogger(this.getName());
     private final VaultInitializer vaultInitializer = new VaultInitializer(project);
-
     ConfigurationFile mainConfig = new ConfigurationFile(project, project.getDataFolder(), "config-main", true, true);
+
     @Override
     public void onEnable() {
         project = this;
