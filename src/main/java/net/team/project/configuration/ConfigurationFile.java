@@ -22,6 +22,9 @@ public class ConfigurationFile {
         this.createIfNotExist = createIfNotExist;
         this.resource = resource;
         create();
+
+        this.reloadConfig();
+        project.logger.info("Loaded configuration file with name " + name);
     }
     public ConfigurationFile(Project project, String path, String name, boolean createIfNotExist, boolean resource) {
         this(project, new File(path), name, createIfNotExist, resource);

@@ -1,4 +1,4 @@
-package net.team.project.commandsHelper;
+package net.team.project.commandRegistration;
 
 import com.google.common.reflect.ClassPath;
 import lombok.SneakyThrows;
@@ -8,13 +8,13 @@ import net.team.project.api.commandAPI.CommandHandler;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-public class CommandInitializer {
+public class CommandRegistrator {
 
     private ArrayList<String> loadedCommands;
     private final String commandsPackage = "net.team.project.commands";
 
     Project project;
-    public CommandInitializer(Project project) {
+    public CommandRegistrator(Project project) {
         this.project = project;
     }
 
@@ -22,9 +22,9 @@ public class CommandInitializer {
     public void initializeCommands() {
         loadedCommands = new ArrayList<>();
         CommandHandler.registerCommands(commandsPackage, project);
-        ClassPath.from(this.getClass().getClassLoader()).getAllClasses().stream()
+        ClassPath.from(project.getClass().getClassLoader()).getAllClasses().stream()
                 .filter(info -> info.getPackageName().startsWith(commandsPackage))
                 .forEach(info -> loadedCommands.add(info.load().getName()));
-        project.logger.log(Level.INFO, "Initialized "+loadedCommands.size()+" commands");
+        project.logger.info("Initialized "+loadedCommands.size()+" commands");
     }
 }

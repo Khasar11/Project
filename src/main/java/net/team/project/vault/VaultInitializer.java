@@ -17,7 +17,7 @@ public class VaultInitializer {
     Project project;
     public VaultInitializer(Project project) {
         this.project = project;
-        server = this.project.getServer();
+        this.server = project.getServer();
     }
 
     public static Permission getPermissions() {
@@ -32,12 +32,13 @@ public class VaultInitializer {
 
     public void setup() {
         if (!setupEconomy() ) {
-            project.logger.severe(String.format("[%s] - Disabled due to no Vault dependency found!", project.getDescription().getName()));
+            project.logger.severe("Disabled due to no Vault dependency found!");
             server.getPluginManager().disablePlugin(project);
             return;
         }
         setupPermissions();
         setupChat();
+        project.logger.info("Loaded vault dependency");
     }
 
     private boolean setupEconomy() {

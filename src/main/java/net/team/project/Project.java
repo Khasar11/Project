@@ -1,30 +1,38 @@
 package net.team.project;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.team.project.commandsHelper.CommandInitializer;
+import net.team.project.commandRegistration.CommandRegistrator;
 import net.team.project.configuration.ConfigurationFile;
 import net.team.project.vault.VaultInitializer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Project extends JavaPlugin {
     private Project project;
-    private final CommandInitializer commandInit = new CommandInitializer(project);
-    public Logger logger = Logger.getLogger(this.getName());
-    private final VaultInitializer vaultInitializer = new VaultInitializer(project);
-    ConfigurationFile mainConfig = new ConfigurationFile(project, project.getDataFolder(), "config-main", true, true);
+    public Logger logger;
+
+    ConfigurationFile mainConfig;
+    private CommandRegistrator commandRegistrator;
+    private VaultInitializer vaultInitializer;
 
     @Override
     public void onEnable() {
         project = this;
-        commandInit.initializeCommands();
+        logger = getLogger();
+
+        commandRegistrator= new CommandRegistrator(project);
+        vaultInitializer = new VaultInitializer(project);
+
+        mainConfig = new ConfigurationFile(project, project.getDataFolder(), "cfg-main", true, true);
+
+        commandRegistrator.initializeCommands();
         vaultInitializer.setup();
-        logger.log(Level.INFO, (String) mainConfig.getConfig().get("startup-readout"));
+
+        logger.info(mainConfig.getConfig().getString("startup-readout"));
     }
 
     @Override
     public void onDisable() {
-
+    logger.info("Disabling plugin");
     }
 }
