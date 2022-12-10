@@ -1,8 +1,8 @@
-name: Project
+name: Kore
 version: '${project.version}'
 main: net.team.project.Project
 api-version: 1.19
 authors: [ Khasar, Cole ]
 description: big shit
-softdepend: [ Vault ]
-load: STARTUP
+softdepend:
+  - Vault
