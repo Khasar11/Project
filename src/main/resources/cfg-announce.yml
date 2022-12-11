@@ -1,0 +1,9 @@
+#Simple Announce thing
+#Has note pling or some shit playing when it is broadcasted idk what sound yet
+Timer: 300
+Header: " "
+Footer: " "
+Announcements:
+  - "&cBroadcast 1"
+  - "&cBroadcast 2"
+  - "&cBroadcast 3"

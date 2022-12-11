@@ -12,6 +12,7 @@ public final class Project extends JavaPlugin {
     public Logger logger;
 
     ConfigurationFile mainConfig;
+    ConfigurationFile announceConfig;
     private CommandRegistrator commandRegistrator;
     private VaultInitializer vaultInitializer;
 
@@ -24,6 +25,7 @@ public final class Project extends JavaPlugin {
         vaultInitializer = new VaultInitializer(project);
 
         mainConfig = new ConfigurationFile(project, project.getDataFolder(), "cfg-main", true, true);
+        announceConfig = new ConfigurationFile(project, project.getDataFolder(), "cfg-announce", true, true);
 
         commandRegistrator.initializeCommands();
         vaultInitializer.setup();
