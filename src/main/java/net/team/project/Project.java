@@ -30,6 +30,7 @@ public final class Project extends JavaPlugin {
 
             // Register the plugin as an economy provider for vault
             project.getServer().getServicesManager().register(Economy.class, new PEconomy(), this, ServicePriority.Highest);
+            logger.info("Registered plugin as vault economy provider");
 
             commandRegistrator.initializeCommands();
             eventRegistrator.initializeEvents();
