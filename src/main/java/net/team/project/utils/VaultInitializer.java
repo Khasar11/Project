@@ -18,6 +18,7 @@ public class VaultInitializer {
     public VaultInitializer(Project project) {
         this.project = project;
         this.server = project.getServer();
+        project.logger.info("Initialized vault initializer");
     }
 
     public static Permission getPermissions() {

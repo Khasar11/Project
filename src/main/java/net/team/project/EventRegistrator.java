@@ -14,6 +14,7 @@ public class EventRegistrator {
     private ArrayList<String> loadedEvents;
     public EventRegistrator(Project project) {
         this.project = project;
+        project.logger.info("Initialized event registrator");
     }
 
     @SneakyThrows

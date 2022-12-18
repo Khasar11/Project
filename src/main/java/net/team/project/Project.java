@@ -17,21 +17,23 @@ public final class Project extends JavaPlugin {
     @Override
     public void onEnable() {
         project = this;
+        logger = getLogger();
+
+        cfh = new ConfigurationHeader(project);
+        cfh.initializeConfigurations();
+
         if (cfh.main.getConfig().getBoolean("enabled")) {
-            logger = getLogger();
 
             CommandRegistrator commandRegistrator = new CommandRegistrator(project);
             EventRegistrator eventRegistrator = new EventRegistrator(project);
             VaultInitializer vaultInitializer = new VaultInitializer(project);
-
-            cfh.initializeConfigurations();
 
             // Register the plugin as an economy provider for vault
             project.getServer().getServicesManager().register(Economy.class, new PEconomy(), this, ServicePriority.Highest);
 
             commandRegistrator.initializeCommands();
             eventRegistrator.initializeEvents();
-            //vaultInitializer.setup();
+            vaultInitializer.setup();
 
             logger.info(cfh.messages.getConfig().getString("startup"));
         } else logger.warning(cfh.messages.getConfig().getString("disabled"));

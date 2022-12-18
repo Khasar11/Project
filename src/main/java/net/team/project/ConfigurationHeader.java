@@ -12,6 +12,7 @@ public class ConfigurationHeader {
     
     public ConfigurationHeader(Project project) {
         this.project = project;
+        project.logger.info("Initialized configuration header");
     }
 
     public void initializeConfigurations() {
