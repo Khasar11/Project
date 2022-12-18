@@ -13,18 +13,20 @@ import java.util.*;
 public class help {
     @Command(names = {"help"}, permission = "project.help", description = "Open the help menu")
     public void helpCommand(CommandSender sender, @Param(name = "page", required = false) String page) {
-        Map<String, String> commandList = new TreeMap<>(Collections.reverseOrder());
+        Map<String, String> commandList = new TreeMap<>();
         List<Map<String, String>> helpPages;
         for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
             for (HelpTopic cmd : plugin.getServer().getHelpMap().getHelpTopics()) {
-                if (cmd.getShortText().contains("Alias") || (!cmd.canSee(sender) && !cmd.getName().startsWith("/")))
+                if (!cmd.canSee(sender) || !cmd.getName().startsWith("/"))
                     continue;
                 commandList.put(cmd.getName(), cmd.getShortText());
             }
         }
 
-        if (page == null) page = "1";
         helpPages = splitMap(commandList, Math.round(commandList.size() / 10));
+
+        if (page == null) page = "1";
+
         try {
             if (helpPages.get(Integer.parseInt(page)) == null) ;
         } catch (Exception e) {
