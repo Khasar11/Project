@@ -1,3 +1,11 @@
 startup: "bitch ass console"
 disable: "goodbye bitch ass console"
 disabled: "plugin main enable is false in main.yml"
+cuse: 'This can not be done from the console'
+no-permission: '&f[&c!&f] Lacking permission &b{0}'
+default-help: '&f[&c!&f] Incorrect input'
+player-doesnt-exist: '&f[&c!&f] Player does not exist'
+world-doesnt-exist: '&f[&c!&f] World does not exist'
+help-top: '&x&2&f&f&5&c&7&m           &r &fHelp page &b{0}&f/&b{1} &x&2&f&f&5&c&7&m           '
+help-commands: '&b{0} &f- &x&b&5&f&f&f&5{1}'
+help-bottom: '&x&2&f&f&5&c&7&m                                           '
