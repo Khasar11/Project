@@ -15,7 +15,7 @@ public class CommandRegistrator {
     Project project;
     public CommandRegistrator(Project project) {
         this.project = project;
-        project.logger.info("Initialized command Registrator");
+        project.logger.info("Initialized command registrator");
     }
 
     @SneakyThrows
