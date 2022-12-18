@@ -1,4 +1,4 @@
-package net.team.project.vault;
+package net.team.project.utils;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
@@ -32,8 +32,7 @@ public class VaultInitializer {
 
     public void setup() {
         if (!setupEconomy() ) {
-            project.logger.severe("Disabled due to no Vault dependency found!");
-            server.getPluginManager().disablePlugin(project);
+            project.logger.severe("No vault dependency found, please install vault, a lot of features will not work without it");
             return;
         }
         setupPermissions();

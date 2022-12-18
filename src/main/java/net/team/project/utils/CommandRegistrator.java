@@ -1,4 +1,4 @@
-package net.team.project.commandRegistration;
+package net.team.project.utils;
 
 import com.google.common.reflect.ClassPath;
 import lombok.SneakyThrows;
@@ -6,7 +6,6 @@ import net.team.project.Project;
 import net.team.project.api.commandAPI.CommandHandler;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class CommandRegistrator {
 

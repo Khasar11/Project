@@ -1,4 +1,4 @@
-package net.team.project.configuration;
+package net.team.project.utils;
 
 import net.team.project.Project;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -42,7 +42,7 @@ public class ConfigurationFile {
 
     public File reloadFile() {
         file = new File(path, name);
-        return file;
+        return new File(path, name);
     }
 
     public FileConfiguration reloadConfig() {
@@ -71,9 +71,6 @@ public class ConfigurationFile {
             } catch (Exception exc) {
                 exc.printStackTrace();
             }
-        }
-        if (config == null) {
-            reloadConfig();
         }
     }
 }

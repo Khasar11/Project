@@ -2,38 +2,43 @@ package net.team.project;
 
 import java.util.logging.Logger;
 
-import net.team.project.commandRegistration.CommandRegistrator;
-import net.team.project.configuration.ConfigurationFile;
-import net.team.project.vault.VaultInitializer;
+import net.milkbowl.vault.economy.Economy;
+import net.team.project.economy.PEconomy;
+import net.team.project.utils.CommandRegistrator;
+import net.team.project.utils.VaultInitializer;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Project extends JavaPlugin {
-    private Project project;
+    private static Project project;
     public Logger logger;
-
-    ConfigurationFile mainConfig;
-    ConfigurationFile announceConfig;
-    private CommandRegistrator commandRegistrator;
-    private VaultInitializer vaultInitializer;
+    public ConfigurationHeader cfh;
 
     @Override
     public void onEnable() {
         project = this;
         logger = getLogger();
 
-        commandRegistrator= new CommandRegistrator(project);
-        vaultInitializer = new VaultInitializer(project);
+        CommandRegistrator commandRegistrator = new CommandRegistrator(project);
+        EventRegistrator eventRegistrator = new EventRegistrator(project);
+        VaultInitializer vaultInitializer = new VaultInitializer(project);
 
-        mainConfig = new ConfigurationFile(project, project.getDataFolder(), "cfg-main", true, true);
+        cfh.initializeConfigurations();
+
+        // Register the plugin as an economy provider for vault
+        project.getServer().getServicesManager().register(Economy.class, new PEconomy(), this, ServicePriority.Highest);
 
         commandRegistrator.initializeCommands();
-        vaultInitializer.setup();
+        eventRegistrator.initializeEvents();
+        //vaultInitializer.setup();
 
-        logger.info(mainConfig.getConfig().getString("startup-readout"));
+        logger.info(cfh.messages.getConfig().getString("startup-readout"));
     }
 
     @Override
     public void onDisable() {
-    logger.info("Disabling plugin");
+        logger.info(cfh.messages.getConfig().getString("disable-readout"));
     }
+
+    public static Project getInstance() { return project; }
 }
