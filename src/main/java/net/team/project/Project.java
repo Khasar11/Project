@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.economy.Economy;
 import net.team.project.economy.PEconomy;
 import net.team.project.utils.CommandRegistrator;
+import net.team.project.utils.EventRegistrator;
 import net.team.project.utils.VaultInitializer;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;

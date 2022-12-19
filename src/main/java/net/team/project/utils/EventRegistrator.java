@@ -1,7 +1,8 @@
-package net.team.project;
+package net.team.project.utils;
 
 import com.google.common.reflect.ClassPath;
 import lombok.SneakyThrows;
+import net.team.project.Project;
 import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
