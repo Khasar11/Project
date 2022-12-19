@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class general {
-    private static Chat chat = VaultInitializer.getChat();
+    private final static Chat chat = VaultInitializer.getChat();
 
     public static String nowFormatted() {
         java.util.Date date = new java.util.Date();
@@ -31,8 +31,7 @@ public class general {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        long unixTime = (long) date.getTime() / 1000;
-        return unixTime;
+        return date.getTime() / 1000;
     }
 
     public static String unixToStr(long unix) {
@@ -84,20 +83,13 @@ public class general {
         Player p = Bukkit.getPlayer(uuid);
         String mainGroup = chat.getPlayerGroups(p)[0];
         return s.replace("{USERNAME}", p.getName())
-                .replace("{DISPAYNAME}", p.getDisplayName()
+                        .replace("{DISPAYNAME}", p.getDisplayName()
                         .replace("{PREFIX}", chat.getGroupPrefix(p.getWorld(), mainGroup))
                         .replace("{SUFFIX}", chat.getGroupSuffix(p.getWorld(), mainGroup))
                         .replace("{PING}", getPing(p)));
     }
 
     public static String getPing(Player p) {
-        int ping = 0;
-        try {
-            Object entityPlayer = p.getClass().getMethod("getHandle").invoke(p);
-            ping = (int) entityPlayer.getClass().getField("ping").get(entityPlayer);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return ping+"";
+        return "-1";
     }
 }
