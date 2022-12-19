@@ -2,12 +2,12 @@ package net.team.project.api.commandAPI.bukkit;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.team.project.Project;
 import net.team.project.api.commandAPI.CommandHandler;
 import net.team.project.api.commandAPI.help.HelpNode;
 import net.team.project.api.commandAPI.node.ArgumentNode;
 import net.team.project.api.commandAPI.node.CommandNode;
 import net.team.project.api.commandAPI.paramter.ParamProcessor;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -44,7 +44,9 @@ public class BukkitCommand extends Command {
             HelpNode helpNode = node.getHelpNodes().get(0);
 
             if(!helpNode.getPermission().isEmpty() && !sender.hasPermission(helpNode.getPermission())) {
-                sender.sendMessage(ChatColor.RED + "I'm sorry, although you do not have permission to execute this command.");
+                sender.sendMessage(
+                        Project.getInstance().cfh.messages.getConfig().getString("no-permission").replace("{0}",
+                                helpNode.getPermission()));
                 return false;
             }
 

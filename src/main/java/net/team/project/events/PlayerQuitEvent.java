@@ -1,5 +1,6 @@
 package net.team.project.events;
 
+import net.kyori.adventure.text.Component;
 import net.team.project.Project;
 import net.team.project.utils.UserH;
 import net.team.project.utils.general;
@@ -19,8 +20,8 @@ public class PlayerQuitEvent implements Listener {
         // if quit message in player's config is not set use from server config
         e.setQuitMessage(
                 UserH.userList.get(uuid).getConfig().getString("quit-message") != null
-                ? general.sF(general.fixPlaceholders(uuid, UserH.userList.get(uuid).getConfig().getString("quit-message")))
-                : general.sF(general.fixPlaceholders(uuid, project.cfh.main.getConfig().getString("default-quit-message"))));
+                ? general.fixPlaceholders(uuid, general.Fg(UserH.userList.get(uuid).getConfig().getString("quit-message")))
+                : general.fixPlaceholders(uuid, general.Fg(project.cfh.main.getConfig().getString("default-quit-message"))));
 
 
         // This should always stay at bottom of quit event

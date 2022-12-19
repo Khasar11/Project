@@ -39,13 +39,13 @@ public class help {
         } catch (Exception e) {
             toSend = helpPages.get(Integer.parseInt("0"));
         }
-        sender.sendMessage(general.sFg("help-top").replace("{0}", Integer.parseInt(page) + 1 + "").replace("{1}", helpPages.size() - 1 + ""));
+        sender.sendMessage(general.Fg("help-top").replace("{0}", Integer.parseInt(page) + 1 + "").replace("{1}", helpPages.size() - 1 + ""));
         for (String key : toSend.keySet()) {
-            sender.sendMessage(general.sFg("help-commands")
+            sender.sendMessage(general.Fg("help-commands")
                     .replace("{0}", key)
                     .replace("{1}", toSend.get(key)));
         }
-        sender.sendMessage(general.sFg("help-bottom")
+        sender.sendMessage(general.Fg("help-bottom")
                 .replace("{0}", page)
                 .replace("{1}", helpPages.size() + ""));
     }

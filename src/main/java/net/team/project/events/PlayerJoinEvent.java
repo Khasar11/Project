@@ -29,7 +29,7 @@ public class PlayerJoinEvent implements Listener {
         // if join message in player's config is not set use from server config
         e.setJoinMessage(
                 UserH.userList.get(uuid).getConfig().getString("join-message") != null
-                ? general.sF(general.fixPlaceholders(uuid, UserH.userList.get(uuid).getConfig().getString("join-message")))
-                : general.sF(general.fixPlaceholders(uuid, project.cfh.main.getConfig().getString("default-join-message"))));
+                ? general.fixPlaceholders(uuid, general.Fg(UserH.userList.get(uuid).getConfig().getString("join-message")))
+                : general.fixPlaceholders(uuid, general.Fg(project.cfh.main.getConfig().getString("default-join-message"))));
     }
 }

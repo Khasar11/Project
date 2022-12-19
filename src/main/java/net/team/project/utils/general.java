@@ -42,37 +42,18 @@ public class general {
         return System.currentTimeMillis() / 1000L;
     }
 
-    // get messages.yml string
-    public static String g(String path) {
-        return Project.getInstance().cfh.messages.getConfig().getString(path);
-    }
 
     // string format
-    public static String sF(String toFormat) {
+    public static String F(String toFormat) {
         return ChatColor.translateAlternateColorCodes('&', toFormat);
     }
 
-    // get from path and return formatted
-    public static String sFg(String path) {
-        return sF(g(path));
-    }
-
-    public static boolean checkPerm(CommandSender sender, String perm) {
-        if (sender.hasPermission(perm)) {
-            return true;
-        }
-        sender.sendMessage(sFg("no-permission").replace("{0}", perm));
-        return false;
-    }
-
-    public static boolean isConsoleUser(CommandSender sender) {
-        if (sender instanceof Player) return false;
-        sender.sendMessage(sFg("cuse"));
-        return true;
+    public static String Fg(String path) { // "format" and get from config
+        return F(Project.getInstance().cfh.messages.getConfig().getString(path));
     }
 
     public static void sendDM(CommandSender toSend, String replace0, String replace1, String replace2) {
-        toSend.sendMessage(sFg("message-format")
+        toSend.sendMessage(Fg("message-format")
                 .replace("{0}", replace0)
                 .replace("{1}", replace1)
                 .replace("{2}", replace2));
