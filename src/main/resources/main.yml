@@ -1,4 +1,6 @@
 enabled: true
 
-default-join-message: "&7[&a+&7] {USERNAME}"
-default-quit-message: "&7[&c-&7] {USERNAME}"
+default-join-message: "&7[&a+&7] &f{USERNAME}"
+default-quit-message: "&7[&c-&7] &f{USERNAME}"
+
+chat-format: "{PREFIX}{TAG}{DISPLAYNAME}{SUFFIX}&7: &F{MESSAGE}"

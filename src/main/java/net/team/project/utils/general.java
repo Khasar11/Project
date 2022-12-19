@@ -3,7 +3,6 @@ package net.team.project.utils;
 import net.milkbowl.vault.chat.Chat;
 import net.team.project.Project;
 
-import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -83,13 +82,9 @@ public class general {
         Player p = Bukkit.getPlayer(uuid);
         String mainGroup = chat.getPlayerGroups(p)[0];
         return s.replace("{USERNAME}", p.getName())
-                        .replace("{DISPAYNAME}", p.getDisplayName()
-                        .replace("{PREFIX}", chat.getGroupPrefix(p.getWorld(), mainGroup))
-                        .replace("{SUFFIX}", chat.getGroupSuffix(p.getWorld(), mainGroup))
-                        .replace("{PING}", getPing(p)));
-    }
-
-    public static String getPing(Player p) {
-        return "-1";
+                    .replace("{DISPAYNAME}", p.displayName().toString()
+                    .replace("{PREFIX}", chat.getGroupPrefix(p.getWorld(), mainGroup))
+                    .replace("{SUFFIX}", chat.getGroupSuffix(p.getWorld(), mainGroup))
+                    .replace("{PING}", p.getPing()+""));
     }
 }
