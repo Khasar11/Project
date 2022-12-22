@@ -17,12 +17,12 @@ public class PlayerQuitEvent implements Listener {
         UUID uuid = e.getPlayer().getUniqueId();
 
 
-        // if quit message in player's config is not set use from server config
-        e.setQuitMessage(
-                UserH.userList.get(uuid).getConfig().getString("quit-message") != null
-                ? general.fixPlaceholders(uuid, general.Fg(UserH.userList.get(uuid).getConfig().getString("quit-message")))
-                : general.fixPlaceholders(uuid, general.Fg(project.cfh.main.getConfig().getString("default-quit-message"))));
+        // if join message in player's config is not set use from server config
+        final Component message = UserH.userList.get(uuid).getConfig().getString("quit-message") != null
+                ? general.fixPlaceholders(uuid, general.F(UserH.userList.get(uuid).getConfig().getString("quit-message")))
+                : general.fixPlaceholders(uuid, general.Fg("default-quit-message"));
 
+        e.quitMessage(Component.text().append(message).build());
 
         // This should always stay at bottom of quit event
         UserH.userList.get(uuid).save();

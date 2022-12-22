@@ -9,3 +9,6 @@ world-doesnt-exist: '&f[&c!&f] World does not exist'
 help-top: '&x&2&f&f&5&c&7&m           &r &fHelp page &b{0}&f/&b{1} &x&2&f&f&5&c&7&m           '
 help-commands: '&b{0} &f- &x&b&5&f&f&f&5{1}'
 help-bottom: '&x&2&f&f&5&c&7&m                                           '
+default-join-message: "&7[&a+&7] &f{USERNAME}"
+default-quit-message: "&7[&c-&7] &f{USERNAME}"
+default-chat-format: "{PREFIX}{TAG}{DISPLAYNAME}{SUFFIX}&7: &F"
