@@ -70,57 +70,64 @@ public class general {
     public static Component fixPlaceholders(UUID uuid, String input) {
         Player p = Bukkit.getPlayer(uuid);
         String mainGroup = chat.getPlayerGroups(p)[0];
-        TextReplacementConfig config = TextReplacementConfig.builder().matchLiteral("{DISPLAYNAME}")
-                .replacement(p.displayName().hoverEvent(
-                        Component.text(p.getName() + "\n" + uuid + "\n" + (p.isOnline() ?
-                                UserH.userList.get(uuid).getConfig().getString("first-join") :
-                                ""))))
-                .matchLiteral("{PREFIX}")
-                .replacement(Component.text(mainGroup != null ?
-                                chat.getGroupPrefix(p.getWorld(), mainGroup) :
-                                "")
-                        .hoverEvent(HoverEvent.showText(
-                                Component.text("Prefix from group/user, users main group: " + mainGroup))))
-                .matchLiteral("{SUFFIX}")
-                .replacement(Component.text(mainGroup != null ?
-                                chat.getGroupSuffix(p.getWorld(), mainGroup) :
-                                "")
-                        .hoverEvent(HoverEvent.showText(
-                                Component.text("Prefix from group/user, users main group: " + mainGroup))))
-                .matchLiteral("{TAG}")
-                .replacement(Component.text(checkElseEmpty(UserH.userList.get(p.getUniqueId()).getConfig().getString("tag")))
-                        .hoverEvent(HoverEvent.showText(Component.text("Given to user by: " + checkElseEmpty(UserH.userList.get(p.getUniqueId()).getConfig().getString("tag-from"))))))
-                .matchLiteral("{USERNAME}")
-                .replacement(Component.text(p.getName())
-                        .hoverEvent(HoverEvent.showText(Component.text(uuid +
-                                "\n" +
-                                (p.isOnline() ?
-                                        UserH.userList.get(uuid).getConfig().getString("first-join") :
-                                        "") +
-                                "\n" +
-                                "&b" + p.getWorld().getName()))))
-                .matchLiteral("{PING}").replacement(Component.text(p.getPing()))
+        TextReplacementConfig config = TextReplacementConfig.builder()
+                .match("\\{DISPLAYNAME\\}|\\{PREFIX\\}|\\{SUFFIX\\}|\\{TAG\\}|\\{USERNAME\\}|\\{PING\\}")
+                .replacement((matchResult, builder) -> {
+                    switch (matchResult.group()) {
+                        case "{USERNAME}":
+                            builder = builder.content("").append(Component.text(p.getName())
+                                .hoverEvent(HoverEvent.showText(Component.text(uuid +
+                                        "\n" +
+                                        (p.isOnline() ?
+                                                UserH.userList.get(uuid).getConfig().getString("first-join") :
+                                                "") +
+                                        "\n" +
+                                        "<0x00bbbb>" + p.getWorld().getName()))));
+                            break;
+                        case "{DISPLAYNAME}":
+                            builder = builder.content("").append(p.displayName().hoverEvent(
+                                    Component.text(p.getName() + "\n" + uuid + "\n" + (p.isOnline() ?
+                                            UserH.userList.get(uuid).getConfig().getString("first-join") :
+                                            ""))));
+                            break;
+                        case "{PING}":
+                            builder = builder.content("").append(Component.text(p.getPing()));
+                            break;
+                        case "{PREFIX}":
+                            builder = builder.content("").append(Component.text(mainGroup != null ?
+                                            chat.getGroupPrefix(p.getWorld(), mainGroup) :
+                                            "")
+                                    .hoverEvent(HoverEvent.showText(
+                                            Component.text("Prefix from group/user, users main group: " + mainGroup))));
+                            break;
+                        case "{SUFFIX}":
+                            builder = builder.content("").append(Component.text(mainGroup != null ?
+                                            chat.getGroupSuffix(p.getWorld(), mainGroup) :
+                                            "")
+                                    .hoverEvent(HoverEvent.showText(
+                                            Component.text("Suffix from group/user, users main group: " + mainGroup))));
+                            break;
+                        case "{TAG}":
+                            builder = builder.content("").append(
+                                    Component.text(checkElseEmpty(
+                                            UserH.userList.get(p.getUniqueId()).getConfig().getString("tag")))
+                                    .hoverEvent(HoverEvent.showText(
+                                            Component.text("Given to user by: " +
+                                                    checkElseEmpty(
+                                                            UserH.userList.get(p.getUniqueId()).getConfig().getString
+                                                                    ("tag-from"))))));
+                            break;
+                        case "{WORLD}":
+                            builder = builder.content("").append(Component.text(p.getWorld().getName()));
+                    }
+                    return builder;
+                })
                 .build();
 
-        Component comp = Component.text(input).replaceText(config);
-        return comp;
+        return Component.text(input).replaceText(config);
     }
 
     public static String checkElseEmpty(String string) {
         return string != null ? string : "";
     }
-
-    /*public static String fixPlaceholders(UUID uuid, String s) {
-        Player p = Bukkit.getPlayer(uuid);
-        String mainGroup = chat.getPlayerGroups(p)[0];
-        return s.replace("{USERNAME}", p.getName())
-                    .replace("{DISPLAYNAME}", p.displayName()
-                    .replace("{PREFIX}", mainGroup != null ? chat.getGroupPrefix(p.getWorld(), mainGroup) : "")
-                    .replace("{SUFFIX}", mainGroup != null ? chat.getGroupSuffix(p.getWorld(), mainGroup) : "")
-                    .replace("{PING}", p.getPing()+"")
-                    .replace("{TAG}",
-                            UserH.userList.get(p.getUniqueId()).getConfig().getString("tag") != null
-                            ? UserH.userList.get(p.getUniqueId()).getConfig().getString("tag")
-                            : "");
-    }*/
 }
