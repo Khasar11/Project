@@ -3,6 +3,7 @@ package net.team.project.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.milkbowl.vault.chat.Chat;
 import net.team.project.Project;
 
@@ -13,12 +14,11 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class general {
     private final static Chat chat = VaultInitializer.getChat();
+    private static final MiniMessage mm = MiniMessage.miniMessage();
 
     public static String nowFormatted() {
         java.util.Date date = new java.util.Date();
@@ -47,27 +47,21 @@ public class general {
 
 
     // string format
-    public static String F(String toFormat) {
-        return ChatColor.translateAlternateColorCodes('&', toFormat);
-    }
-
-    public static String Fg(String path) { // "format" and get from config
+    public static Component Mg(String path) { // "format" and get from config
         try {
-            return F(Project.getInstance().cfh.messages.getConfig().getString(path));
+            return mm.deserialize(Project.getInstance().cfh.messages.getConfig().getString(path));
         } catch (java.lang.IllegalArgumentException e) {
             e.printStackTrace();
         }
-        return "Error on net.team.project.utils.general.Fg("+path+")"+ "contact admin/developer";
+        return Component.text("Error on net.team.project.utils.general.Fg("+path+")"+ "contact admin/developer");
     }
 
-    public static void sendDM(CommandSender toSend, String replace0, String replace1, String replace2) {
-        toSend.sendMessage(Fg("message-format")
-                .replace("{0}", replace0)
-                .replace("{1}", replace1)
-                .replace("{2}", replace2));
+    public static Component Ug(UUID uuid, String path) {
+        return UserH.userList.get(uuid).getConfig().getString(path) != null ?
+             mm.deserialize(UserH.userList.get(uuid).getConfig().getString(path)) : Component.text("");
     }
 
-    public static Component fixPlaceholders(UUID uuid, String input) {
+    public static Component fixPlaceholders(UUID uuid, Component input) {
         Player p = Bukkit.getPlayer(uuid);
         String mainGroup = chat.getPlayerGroups(p)[0];
         TextReplacementConfig config = TextReplacementConfig.builder()
@@ -77,31 +71,24 @@ public class general {
                         case "{USERNAME}":
                             builder = builder.content("").append(Component.text(p.getName())
                                 .hoverEvent(HoverEvent.showText(Component.text(uuid +
-                                        "\n" +
-                                        (p.isOnline() ?
-                                                UserH.userList.get(uuid).getConfig().getString("first-join") :
-                                                "") +
-                                        "\n" +
-                                        "<0x00bbbb>" + p.getWorld().getName()))));
+                                        "\n" + p.getWorld().getName()))));
                             break;
                         case "{DISPLAYNAME}":
                             builder = builder.content("").append(p.displayName().hoverEvent(
-                                    Component.text(p.getName() + "\n" + uuid + "\n" + (p.isOnline() ?
-                                            UserH.userList.get(uuid).getConfig().getString("first-join") :
-                                            ""))));
+                                    Component.text(p.getName() + "\n" + uuid + ("\n"+p.getWorld().getName()))));
                             break;
                         case "{PING}":
                             builder = builder.content("").append(Component.text(p.getPing()));
                             break;
                         case "{PREFIX}":
-                            builder = builder.content("").append(Component.text(mainGroup != null ?
+                            builder = builder.content("").append(mm.deserialize(mainGroup != null ?
                                             chat.getGroupPrefix(p.getWorld(), mainGroup) :
                                             "")
                                     .hoverEvent(HoverEvent.showText(
                                             Component.text("Prefix from group/user, users main group: " + mainGroup))));
                             break;
                         case "{SUFFIX}":
-                            builder = builder.content("").append(Component.text(mainGroup != null ?
+                            builder = builder.content("").append(mm.deserialize(mainGroup != null ?
                                             chat.getGroupSuffix(p.getWorld(), mainGroup) :
                                             "")
                                     .hoverEvent(HoverEvent.showText(
@@ -109,25 +96,16 @@ public class general {
                             break;
                         case "{TAG}":
                             builder = builder.content("").append(
-                                    Component.text(checkElseEmpty(
-                                            UserH.userList.get(p.getUniqueId()).getConfig().getString("tag")))
+                                    Ug(uuid, "tag")
                                     .hoverEvent(HoverEvent.showText(
                                             Component.text("Given to user by: " +
-                                                    checkElseEmpty(
-                                                            UserH.userList.get(p.getUniqueId()).getConfig().getString
-                                                                    ("tag-from"))))));
+                                                    Ug(uuid, "tag-from")))));
                             break;
                         case "{WORLD}":
                             builder = builder.content("").append(Component.text(p.getWorld().getName()));
                     }
                     return builder;
-                })
-                .build();
-
-        return Component.text(input).replaceText(config);
-    }
-
-    public static String checkElseEmpty(String string) {
-        return string != null ? string : "";
+                }).build();
+        return input.replaceText(config);
     }
 }

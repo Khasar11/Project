@@ -19,8 +19,8 @@ public class PlayerQuitEvent implements Listener {
 
         // if join message in player's config is not set use from server config
         final Component message = UserH.userList.get(uuid).getConfig().getString("quit-message") != null
-                ? general.fixPlaceholders(uuid, general.F(UserH.userList.get(uuid).getConfig().getString("quit-message")))
-                : general.fixPlaceholders(uuid, general.Fg("default-quit-message"));
+                ? general.fixPlaceholders(uuid, Component.text(UserH.userList.get(uuid).getConfig().getString("quit-message")))
+                : general.fixPlaceholders(uuid, general.Mg("default-quit-message"));
 
         e.quitMessage(Component.text().append(message).build());
 
