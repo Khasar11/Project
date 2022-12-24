@@ -33,7 +33,7 @@ public class help {
         int pageIndex = 1;
         int entriesPerPage = 10;
         Map<String, String> nullpage = new TreeMap<>();
-        nullpage.put(PlainTextComponentSerializer.plainText().serialize(general.Mg("0th-help-page")), "");
+        nullpage.put("", "");
         pages.add(nullpage);
         Map<String, String> currentPage = new TreeMap<>();
         for (String s : commands.keySet()) {
@@ -50,6 +50,7 @@ public class help {
         if (page >= pages.size()) page = 1;
 
         Map<String, String> toSend = pages.get(page);
+        if (page == 0) { sender.sendMessage(general.Mg("0th-help-page")); return; }
         for (String s : toSend.keySet()) {
             sender.sendMessage(s + " - " + toSend.get(s));
         }
