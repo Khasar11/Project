@@ -7,7 +7,7 @@ default-help: '<white>[<red>!<white>] Incorrect input'
 player-doesnt-exist: '<white>[<red>!<white>] Player does not exist'
 world-doesnt-exist: '<white>[<red>!<white>] World does not exist'
 help-top: '<#2ff5c7><st>           &r &fHelp page &b{0}<white>/<aqua>{1} <#2ff5c7><st>           '
-help-commands: '<aqua>{0} &f- <#b5fff5>{1}'
+help-commands: '<aqua>{0} <white>- <#b5fff5>{1}'
 help-bottom: '<#2ff5c7><st>                                           '
 0th-help-page: 'funny guy 0th page'
 default-join-message: "<gray>[<green>+<gray>] <white>{USERNAME}"

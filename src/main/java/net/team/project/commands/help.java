@@ -1,6 +1,6 @@
 package net.team.project.commands;
 
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.kyori.adventure.text.TextReplacementConfig;
 import net.team.project.api.commandAPI.Command;
 import net.team.project.api.commandAPI.paramter.Param;
 import net.team.project.utils.general;
@@ -30,7 +30,6 @@ public class help {
         }
 
         int pageKeyValueIndex = 0;
-        int pageIndex = 1;
         int entriesPerPage = 10;
         Map<String, String> nullpage = new TreeMap<>();
         nullpage.put("", "");
@@ -51,8 +50,18 @@ public class help {
 
         Map<String, String> toSend = pages.get(page);
         if (page == 0) { sender.sendMessage(general.Mg("0th-help-page")); return; }
+        sender.sendMessage(general.Mg("help-top")
+                .replaceText(
+                        TextReplacementConfig.builder().matchLiteral("{0}").replacement(page+"").build())
+                .replaceText(
+                        TextReplacementConfig.builder().matchLiteral("{1}").replacement(pages.size()+1+"").build()));
         for (String s : toSend.keySet()) {
-            sender.sendMessage(s + " - " + toSend.get(s));
+            sender.sendMessage(general.Mg("help-commands")
+                    .replaceText(TextReplacementConfig.builder()
+                            .matchLiteral("{0}").replacement(s).build())
+                    .replaceText(TextReplacementConfig.builder().matchLiteral("{1}").replacement(toSend.get(s))
+                            .build()));
         }
+        sender.sendMessage(general.Mg("help-bottom"));
     }
 }

@@ -56,6 +56,10 @@ public class general {
         return Component.text("Error on net.team.project.utils.general.Fg("+path+")"+ "contact admin/developer");
     }
 
+    public static String MgS(String path) {
+        return Project.getInstance().cfh.messages.getConfig().getString(path);
+    }
+
     public static Component Ug(UUID uuid, String path) {
         return UserH.userList.get(uuid).getConfig().getString(path) != null ?
              mm.deserialize(UserH.userList.get(uuid).getConfig().getString(path)) : Component.text("");
