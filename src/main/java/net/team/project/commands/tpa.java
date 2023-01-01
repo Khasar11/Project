@@ -17,6 +17,7 @@ public class tpa {
         TeleportRequest request = new TeleportRequest(sender.getUniqueId(),
                 target.getUniqueId(),
                 LocalDateTime.now());
+        // add the request to the plugins temporary storage
         project.temporaryStorage.teleportationRequestCollection.add(request);
 
         sender.sendMessage(general.Mg("teleport-requested-sender")
