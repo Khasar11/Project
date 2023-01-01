@@ -56,6 +56,10 @@ public class general {
         return Component.text("Error on net.team.project.utils.general.Fg("+path+")"+ "contact admin/developer");
     }
 
+    public static Object Cg(String path) {
+        return Project.getInstance().cfh.main.getConfig().get("teleportation-expire-time-seconds");
+    }
+
     public static String MgS(String path) {
         return Project.getInstance().cfh.messages.getConfig().getString(path);
     }

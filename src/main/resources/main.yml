@@ -1,2 +1,4 @@
 enabled: true
 ping-sound: "BLOCK_NOTE_BLOCK_BELL"
+teleportation-expire-time-seconds: "2400L"
+teleportation-delay: "60L"
