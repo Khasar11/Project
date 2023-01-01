@@ -1,5 +1,6 @@
 package net.team.project.commands;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.team.project.api.commandAPI.Command;
 import net.team.project.api.commandAPI.paramter.Param;
@@ -52,9 +53,9 @@ public class help {
         if (page == 0) { sender.sendMessage(general.Mg("0th-help-page")); return; }
         sender.sendMessage(general.Mg("help-top")
                 .replaceText(
-                        TextReplacementConfig.builder().matchLiteral("{0}").replacement(page+"").build())
+                        general.replacementMaker("{0}", Component.text(page+"")))
                 .replaceText(
-                        TextReplacementConfig.builder().matchLiteral("{1}").replacement(pages.size()+1+"").build()));
+                        general.replacementMaker("{1}", Component.text(pages.size()+1))));
         for (String s : toSend.keySet()) {
             sender.sendMessage(general.Mg("help-commands")
                     .replaceText(TextReplacementConfig.builder()

@@ -132,4 +132,8 @@ public class general {
                 }).build();
         return input.replaceText(config);
     }
+
+    public static TextReplacementConfig replacementMaker(String input, Component replacement) {
+        return TextReplacementConfig.builder().matchLiteral(input).replacement(replacement).build();
+    }
 }
