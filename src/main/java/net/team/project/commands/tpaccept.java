@@ -13,6 +13,20 @@ import org.bukkit.entity.Player;
 import java.util.stream.Stream;
 
 public class tpaccept {
+
+    private void handleTeleport(Player target, Player sender, Project project, TeleportRequest request) {
+        sender.sendMessage(general.Mg("teleport-accept-sender")
+                .replaceText(TextReplacementConfig.builder().matchLiteral(" {0}")
+                        .replacement(Component.text(target.name() + "")).build()));
+        target.sendMessage(general.Mg("teleport-accept-target")
+                .replaceText(TextReplacementConfig.builder().matchLiteral("{0}")
+                        .replacement(sender.getName()).build()));
+
+        general.delayedTeleport(target, sender, project);
+
+        project.temporaryStorage.teleportationRequestCollection.remove(request);
+    }
+
     @Command(names = {"tpaccept", "tpyes"}, permission = "project.tpa", description = "Accept a teleportation request", playerOnly = true)
     public void tpRequest(Player sender, @Param(name = "player", required = false) Player target) {
         Project project = Project.getInstance();
@@ -22,33 +36,11 @@ public class tpaccept {
             TeleportRequest targettedRequest = request.filter(e -> e.from == target.getUniqueId()).findFirst().orElse(null);
             TeleportRequest nonTargettedRequest = request.findFirst().orElse(null);
             if (targettedRequest != null) {
-                sender.sendMessage(general.Mg("teleport-accept-sender")
-                        .replaceText(TextReplacementConfig.builder().matchLiteral(" {0}").replacement(target.name()).build()));
-                target.sendMessage(general.Mg("teleport-accept-target")
-                        .replaceText(TextReplacementConfig.builder().matchLiteral("{0}")
-                                .replacement(sender.getName()).build()));
-
-                // DELAY LOGIC
-
-
-                target.teleport(sender);
-
+                handleTeleport(target, sender, project,  targettedRequest);
             } else {
                 if (nonTargettedRequest != null) {
                     Player newTarget = Bukkit.getPlayer(nonTargettedRequest.from);
-                    sender.sendMessage(general.Mg("teleport-accept-sender")
-                            .replaceText(TextReplacementConfig.builder().matchLiteral(" {0}")
-                                    .replacement(Component.text(newTarget + "")).build()));
-                    newTarget.sendMessage(general.Mg("teleport-accept-target")
-                            .replaceText(TextReplacementConfig.builder().matchLiteral("{0}")
-                                    .replacement(sender.getName()).build()));
-
-
-                    // DELAY LOGIC
-
-
-                    newTarget.teleport(sender);
-
+                    handleTeleport(newTarget, sender, project,  nonTargettedRequest);
                 } else {
                     sender.sendMessage(general.Mg("teleport-no-active-requests"));
                 }

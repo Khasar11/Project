@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class general {
@@ -67,6 +68,21 @@ public class general {
     public static Component Ug(UUID uuid, String path) {
         return UserH.userList.get(uuid).getConfig().getString(path) != null ?
              mm.deserialize(UserH.userList.get(uuid).getConfig().getString(path)) : Component.text("");
+    }
+
+    public static void delayedTeleport(Player target, Location location, Project project) {
+        target.sendMessage(Mg("teleporting-started")
+                .replaceText(TextReplacementConfig.builder()
+                        .matchLiteral("{0}")
+                        .replacement(Long.parseLong(Project.getInstance().cfh.main.getConfig().getString("teleportation-delay"))/20+"").build()));
+        project.getServer().getScheduler().scheduleSyncDelayedTask(Project.getInstance(), () -> {
+            target.teleport(location);
+            target.sendMessage(general.Mg("teleporting"));
+        }, Long.parseLong((String) general.Cg("teleportation-delay")));
+    }
+
+    public static void delayedTeleport(Player target, Player location, Project project) {
+        delayedTeleport(target, location.getLocation(), project);
     }
 
     public static Component fixPlaceholders(UUID uuid, Component input) {
